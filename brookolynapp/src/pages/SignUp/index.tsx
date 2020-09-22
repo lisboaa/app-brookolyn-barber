@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 
 import { 
     Container,
@@ -17,8 +17,13 @@ import { useNavigation } from '@react-navigation/native';
 import Button from '../../components/Button';
 import Input from '../../components/Input';
 
+import { Form } from '@unform/mobile';
+import { FormHandles } from '@unform/core';
+
 const SignIn: React.FC = () => {
     const navgation = useNavigation();
+
+    const formRef = useRef<FormHandles>(null);
 
     return(
         <>
@@ -36,14 +41,16 @@ const SignIn: React.FC = () => {
                     <View>
                         <Title>Crie sua conta</Title>
                     </View>
+                    <Form ref={formRef} onSubmit={(data) => {console.log(data);
+                    }}>
+                        <Input name='name' icon='user' placeholder='Nome'/>
+                        
+                        <Input name='email' icon='mail' placeholder='E-mail'/>
 
-                    <Input name='name' icon='user' placeholder='Nome'/>
-                    
-                    <Input name='email' icon='mail' placeholder='E-mail'/>
+                        <Input name='password' icon='lock' placeholder='Senha'/>
+                    </Form>
 
-                    <Input name='password' icon='lock' placeholder='Senha'/>
-
-                    <Button onPress={() => {}}>Entrar</Button>
+                    <Button onPress={() => formRef.current?.submitForm()}>Entrar</Button>
 
                 </Container>
             </ScrollView>
