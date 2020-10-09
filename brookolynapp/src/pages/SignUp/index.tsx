@@ -29,6 +29,8 @@ import getValidationErrors from '../../utils/getValidationErrors';
 import { Form } from '@unform/mobile';
 import { FormHandles } from '@unform/core';
 
+import api from '../../services/api';
+
 interface SignUpFormData {
     name: string;
     email: string;
@@ -60,6 +62,23 @@ const SignIn: React.FC = () => {
           await schema.validate(data, {
             abortEarly: false,
           });
+
+          console.log(data + 'passou aqui antes da requisição');
+          
+          await api.post('/users', data);
+
+        //   console.log(data);
+          
+
+          console.log(data);
+          
+
+          Alert.alert(
+              'Cadastro realizado com sucesso!',
+              'Você já pode fazer login na aplicação.',
+          );
+
+          navgation.goBack();
     
         //   await signIn({
         //     email: data.email,
@@ -76,9 +95,11 @@ const SignIn: React.FC = () => {
             return;
           }
 
-          Alert.alert('Erro na authenticação', 'Ocorreu um erro ao fazer login, cheque as credenciais.')
+          Alert.alert(
+            'Erro no cadastro',
+            'Ocorreu um erro ao fazer cadastro, tente novamente.',);
         }
-      },[]);
+      },[navgation]);
     
 
     return(

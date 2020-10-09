@@ -15,6 +15,8 @@ import { useNavigation } from '@react-navigation/native';
 import { Form } from '@unform/mobile';
 import { FormHandles } from '@unform/core';
 
+import { useAuth } from '../../hooks/auth';
+
 import Icon from 'react-native-vector-icons/Feather'; 
 
 import logoImg from '../../assets/logo.png';
@@ -39,6 +41,17 @@ interface SignInFormData {
 
 const SignIn: React.FC = () => {
 
+    const navgation = useNavigation();
+
+    const passwordInputRef = useRef<TextInput>(null);
+
+    const formRef = useRef<FormHandles>(null);
+
+    const { signIn, user } = useAuth();
+
+    console.log(user);
+    
+    
     const handleSignIn = useCallback(async (data: SignInFormData) => {
 
         try {
@@ -56,12 +69,11 @@ const SignIn: React.FC = () => {
             abortEarly: false,
           });
     
-        //   await signIn({
-        //     email: data.email,
-        //     password: data.password,
-        //   });
+          await signIn({
+            email: data.email,
+            password: data.password,
+          });
     
-        //   history.push('/dashboard')
         } catch(err) {
           if(err instanceof Yup.ValidationError) {
             const errors = getValidationErrors(err);
@@ -76,12 +88,9 @@ const SignIn: React.FC = () => {
               'Ocorreu um erro ao fazer login, cheque as credenciais.',
               );
         }
-      },[]);
-    
-
-    const navgation = useNavigation();
-    const passwordInputRef = useRef<TextInput>(null);
-    const formRef = useRef<FormHandles>(null);
+      },
+      [signIn],
+      );
 
     return(
         <>
