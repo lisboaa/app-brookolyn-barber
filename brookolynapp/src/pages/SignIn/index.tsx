@@ -47,10 +47,7 @@ const SignIn: React.FC = () => {
 
     const formRef = useRef<FormHandles>(null);
 
-    const { signIn, user } = useAuth();
-
-    console.log(user);
-    
+    const { signIn } = useAuth();
     
     const handleSignIn = useCallback(async (data: SignInFormData) => {
 
@@ -134,11 +131,15 @@ const SignIn: React.FC = () => {
                                 formRef.current?.submitForm();
                             }}
                             />
-
-                    </Form>
-                        <Button onPress={() => { formRef.current?.submitForm()}}>
+                        <Button 
+                            onPress={() => {
+                                formRef.current?.submitForm();
+                            }}
+                            >
                             Entrar
                         </Button>
+                    </Form>
+
 
                     <ForgotPassword>
                         <ForgotPasswordText>Esqueci minha senha</ForgotPasswordText>
